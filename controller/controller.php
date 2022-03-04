@@ -1,31 +1,52 @@
 <?php
 
-require('model\model.php');
+// Chargement des classes
+require_once('model/DbConnectManager.php');
+require_once('model/PostManager.php');
+require_once('model/CommentManager.php');
+require_once('model/ChangeCommentManager.php');
+
 
 function listPosts()
 {
-    $posts = getPosts();
+    $postManager = new PostManager(); // Création d'un objet
+    $posts = $postManager->getPosts(); // Appel d'une fonction de cet objet
 
-    require('view\frontend\listPostView.php');
+    require('view/frontend/listPostView.php');
 }
 
 function post()
 {
-    $post = getPost($_GET['id']);
-    $comments = getComments($_GET['id']);
+    $postManager = new PostManager();
+    $commentManager = new CommentManager();
 
-    require('view\frontend\postView.php');
+    $post = $postManager->getPost($_GET['id']);
+    $comments = $commentManager->getComments($_GET['id']);
+
+    require('view/frontend/postView.php');
 }
 
 function addComment($postId, $author, $comment)
 {
-    $affectedLines = postComment($postId, $author, $comment);
+    $commentManager = new CommentManager();
+
+    $affectedLines = $commentManager->postComment($postId, $author, $comment);
 
     if ($affectedLines === false) {
-        //die('Impossible d\'ajouter le commentaire !');
         throw new Exception('Impossible d\'ajouter le commentaire !');
     }
     else {
         header('Location: index.php?action=post&id=' . $postId);
     }
+}
+
+function changeComment($id, $idComment)
+{
+    $commentManager = new CommentManager();
+    $CommentChangeManager = new ChangeCommentManager();
+    
+    $comments = $commentManager->getCommentId($_GET['idComment']);
+    // $changedComment = $changeCommentManager->changeComment($_GET['id'],$_GET['idComment']);
+
+    require('view\frontend\changePostView.php');
 }

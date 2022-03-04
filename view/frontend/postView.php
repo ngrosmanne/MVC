@@ -27,7 +27,8 @@
         while ($comment = $comments->fetch())
         {
         ?>
-            <p><strong><?= htmlspecialchars($comment['author']) ?></strong> le <?= $comment['comment_date_fr'] ?></p>
+            <p><strong><?= htmlspecialchars($comment['author']) ?></strong> le <?= $comment['comment_date'] ?>
+                <a href='index.php?action=changeComment&id=<?=$post['id'];?>&idComment=<?=$post['id'];?>'> mofifier</a></p>
             <p><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
         <?php
         }

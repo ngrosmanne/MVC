@@ -6,19 +6,19 @@
 
 
 <?php
-while ($data = $posts->fetch())
+while ($post = $posts->fetch())
 {
 ?>
     <div class="news">
         <h3>
-            <?= htmlspecialchars($data['title']) ?>
-            <em>le <?= $data['creation_date_fr'] ?></em>
+            <?= htmlspecialchars($post['title']) ?>
+            <em>le <?= $post['creation_date_fr'] ?></em>
         </h3>
         
         <p>
-            <?= nl2br(htmlspecialchars($data['content'])) ?>
+            <?= nl2br(htmlspecialchars($post['content'])) ?>
             <br />
-            <em><a href="?action=post&id=<?= $data['id']?>">Commentaires</a></em>
+            <em><a href="?action=post&id=<?= $post['id']?>">Commentaires</a></em>
         </p>
     </div>
 <?php
